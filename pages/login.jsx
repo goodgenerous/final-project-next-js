@@ -127,7 +127,7 @@ export default function Login() {
           </Flex>
           <CardFooter>
             <Flex gap="1">
-              <Text fontSize="sm">Don't have an account yet?</Text>
+              <Text fontSize="sm">Dont have an account yet?</Text>
               <Text fontSize="sm" color="blue.400" fontWeight="semibold">
                 <Link href="/register">Register Now</Link>
               </Text>
