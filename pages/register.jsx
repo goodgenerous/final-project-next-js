@@ -82,7 +82,7 @@ export default function Register() {
           </CardHeader>
           <CardBody>
             <FormControl mb={4}>
-              <FormLabel> Name </FormLabel>
+              <FormLabel> Name </FormLabel>{" "}
               <InputGroup size="md">
                 <Input
                   name="name"
@@ -93,8 +93,8 @@ export default function Register() {
                     setPayload({ ...payload, name: e.target.value })
                   }
                 />{" "}
-              </InputGroup>
-            </FormControl>
+              </InputGroup>{" "}
+            </FormControl>{" "}
             <FormControl mb={4}>
               <FormLabel> Email </FormLabel>{" "}
               <InputGroup size="md">
@@ -108,7 +108,7 @@ export default function Register() {
                   }
                 />{" "}
               </InputGroup>{" "}
-            </FormControl>
+            </FormControl>{" "}
             <FormControl mb={4}>
               <FormLabel> Date of Birth </FormLabel>{" "}
               <InputGroup size="md">
@@ -121,9 +121,9 @@ export default function Register() {
                   }
                 />{" "}
               </InputGroup>{" "}
-            </FormControl>
+            </FormControl>{" "}
             <FormControl mb={4}>
-              <FormLabel> Phone Number </FormLabel>
+              <FormLabel> Phone Number </FormLabel>{" "}
               <InputGroup size="md">
                 <Input
                   name="phone"
@@ -133,9 +133,9 @@ export default function Register() {
                   onChange={(e) =>
                     setPayload({ ...payload, phone: e.target.value })
                   }
-                />
-              </InputGroup>
-            </FormControl>
+                />{" "}
+              </InputGroup>{" "}
+            </FormControl>{" "}
             <FormControl mb={4}>
               <FormLabel> Hobby </FormLabel>{" "}
               <InputGroup size="md">
@@ -149,7 +149,7 @@ export default function Register() {
                   }
                 />{" "}
               </InputGroup>{" "}
-            </FormControl>
+            </FormControl>{" "}
             <FormControl>
               <FormLabel> Password </FormLabel>{" "}
               <InputGroup size="md">
@@ -170,8 +170,8 @@ export default function Register() {
                   </Button>{" "}
                 </InputRightElement>{" "}
               </InputGroup>{" "}
-            </FormControl>
-          </CardBody>
+            </FormControl>{" "}
+          </CardBody>{" "}
           <Flex justifyContent="center">
             <CardFooter width="full">
               <Button
@@ -185,9 +185,9 @@ export default function Register() {
           </Flex>
           <CardFooter>
             <Flex gap="1">
-              <Text fontSize="sm">Already have an account?</Text>
+              <Text fontSize="sm"> Already have an account ? </Text>
               <Text fontSize="sm" color="blue.400" fontWeight="semibold">
-                <Link href="/login">Login</Link>
+                <Link href="/login"> Login </Link>
               </Text>
             </Flex>
           </CardFooter>

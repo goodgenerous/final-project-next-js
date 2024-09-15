@@ -1,31 +1,81 @@
 {
-  "name": "final-project-by-bagus",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next lint --fix && next build",
-    "start": "next start",
-    "lint": "next lint"
+  "env": {
+    "browser": true,
+    "es2021": true
   },
-  "dependencies": {
-    "@chakra-ui/icons": "^2.1.1",
-    "@chakra-ui/react": "^2.8.2",
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
-    "@headlessui/react": "^2.1.5",
-    "@heroicons/react": "^2.1.5",
-    "framer-motion": "^11.5.4",
-    "js-cookie": "^3.0.5",
-    "next": "14.2.8",
-    "react": "^18",
-    "react-dom": "^18",
-    "swr": "^2.2.5"
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
-  "devDependencies": {
-    "eslint": "^8",
-    "eslint-config-next": "14.2.8",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+  "rules": {
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "react/jsx-props-no-spreading": "off",
+    "import/no-unresolved": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-tabs": 0,
+    "implicit-arrow-linebreak": "off",
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "no-else-return": [
+      0,
+      {
+        "allowElseIf": true
+      }
+    ],
+    "react/jsx-one-expression-per-line": [
+      0,
+      {
+        "allow": "none"
+      }
+    ],
+    "no-restricted-syntax": "off",
+    "react/prop-types": [
+      0,
+      {
+        "ignore": true,
+        "customValidators": true,
+        "skipUndeclared": true
+      }
+    ],
+    "no-mixed-spaces-and-tabs": "off",
+    "no-useless-catch": "off",
+    "no-nested-ternary": "off",
+    "no-extra-boolean-cast": "off",
+    "react/no-array-index-key": "off",
+    "react/forbid-prop-types": "off",
+    "consistent-return": "off",
+    "dot-notation": "off",
+    "no-plusplus": "off",
+    "no-unsafe-optional-chaining": "off",
+    "no-continue": "off",
+    "quotes": [
+      "error",
+      "double"
+    ],
+    "import/extensions": "off",
+    "no-empty": "off",
+    "comma-dangle": [
+      "off",
+      "never"
+    ],
+    "no-unused-vars": "off",
+    "no-console": "off"
   }
 }
