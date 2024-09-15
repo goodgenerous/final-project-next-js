@@ -11,7 +11,7 @@ const NotificationLike = ({ name, createdAt }) => {
             {name}
           </Text>
           <Text fontSize="sm" fontWeight="semibold" color="gray.500">
-            Liked your post ❤️
+            Liked your post
           </Text>
           <Text fontSize="sm" color="gray.500">
             {createdAt}
@@ -32,7 +32,7 @@ const NotificationReply = ({ name, createdAt }) => {
             {name}
           </Text>
           <Text fontSize="sm" fontWeight="semibold" color="gray.500">
-            Replied to your post 💭
+            Replied to your post
           </Text>
           <Text fontSize="sm" color="gray.500">
             {createdAt}
