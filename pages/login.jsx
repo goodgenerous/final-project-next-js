@@ -31,11 +31,10 @@ export default function Login() {
   });
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-  const API_URL = process.env.NEXT_PUBLIC_URL_API;
 
   const handleSubmit = async () => {
     const response = await mutate({
-      url: `${API_URL}/login`,
+      url: `https://service.pace-unv.cloud/api/login`,
       payload,
     });
     if (!response.success) {

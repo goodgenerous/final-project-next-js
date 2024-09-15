@@ -16,12 +16,11 @@ export default function CreatePost() {
   const router = useRouter();
   const { mutate, isError } = useMutation();
   const [postData, setPostData] = useState({ description: "" });
-  const API_URL = process.env.NEXT_PUBLIC_URL_API;
 
   const handleSubmit = async () => {
     try {
       const result = await mutate({
-        url: `${API_URL}/post`,
+        url: `https://service.pace-unv.cloud/api/post`,
         headers: {
           Authorization: `Bearer ${Cookies.get("user_token")}`,
         },

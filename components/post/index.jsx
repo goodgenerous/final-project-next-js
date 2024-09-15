@@ -51,7 +51,6 @@ export default function Post({
   replies,
   idPost,
 }) {
-  const API_URL = process.env.NEXT_PUBLIC_URL_API;
   const userData = useContext(UserContext);
   const toast = useToast();
   const [modalType, setModalType] = useState(null);
@@ -70,11 +69,14 @@ export default function Post({
   useEffect(() => {
     if (currentId) {
       async function fetchingData() {
-        const res = await fetch(`${API_URL}/replies/post/${currentId}`, {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("user_token")}`,
-          },
-        });
+        const res = await fetch(
+          `https://service.pace-unv.cloud/api/replies/post/${currentId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("user_token")}`,
+            },
+          }
+        );
         const listReply = await res.json();
         setReplyDataAPI(listReply.data);
       }
@@ -90,14 +92,17 @@ export default function Post({
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`${API_URL}/replies/post/${currentId}`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${Cookies.get("user_token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(replyData),
-      });
+      const response = await fetch(
+        `https://service.pace-unv.cloud/api/replies/post/${currentId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${Cookies.get("user_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(replyData),
+        }
+      );
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to submit reply");

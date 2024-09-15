@@ -22,9 +22,8 @@ const formatDate = (dateString) => {
 };
 
 export default function Home() {
-  const API_URL = process.env.NEXT_PUBLIC_URL_API;
   const { data, isLoading } = useQueries({
-    prefixUrl: `${API_URL}/posts?type=all`,
+    prefixUrl: `https://service.pace-unv.cloud/api/posts?type=all`,
     headers: {
       Authorization: `Bearer ${Cookies.get("user_token")}`,
     },

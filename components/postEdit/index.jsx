@@ -74,11 +74,14 @@ export default function PostEdit({
   useEffect(() => {
     if (currentId) {
       async function fetchingData() {
-        const res = await fetch(`${API_URL}/replies/post/${currentId}`, {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("user_token")}`,
-          },
-        });
+        const res = await fetch(
+          `https://service.pace-unv.cloud/api/replies/post/${currentId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("user_token")}`,
+            },
+          }
+        );
         const listReply = await res.json();
         setReplyDataAPI(listReply.data);
       }

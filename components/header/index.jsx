@@ -22,11 +22,10 @@ export default function Header() {
   const userData = useContext(UserContext);
   const { mutate } = useMutation();
   const router = useRouter();
-  const API_URL = process.env.NEXT_PUBLIC_URL_API;
 
   const handleLogout = async () => {
     const response = await mutate({
-      url: `${API_URL}/logout`,
+      url: `https://service.pace-unv.cloud/api/logout`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${Cookies.get("user_token")}`,

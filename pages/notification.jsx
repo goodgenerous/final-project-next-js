@@ -22,11 +22,10 @@ const formatDate = (dateString) => {
     second: "numeric",
   });
 };
-const API_URL = process.env.NEXT_PUBLIC_URL_API;
 
 export default function Notification() {
   const { data, isLoading } = useQueries({
-    prefixUrl: `${API_URL}/notifications`,
+    prefixUrl: `https://service.pace-unv.cloud/api/notifications`,
     headers: {
       Authorization: `Bearer ${Cookies.get("user_token")}`,
     },

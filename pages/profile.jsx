@@ -27,7 +27,7 @@ export default function Profile() {
   const API_URL = process.env.NEXT_PUBLIC_URL_API;
   const userData = useContext(UserContext);
   const { data, isLoading } = useQueries({
-    prefixUrl: `${API_URL}/posts?type=me`,
+    prefixUrl: `https://service.pace-unv.cloud/api/posts?type=me`,
     headers: {
       Authorization: `Bearer ${Cookies.get("user_token")}`,
     },
