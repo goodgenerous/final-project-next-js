@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { Flex, Image, Text } from "@chakra-ui/react";
 import ProfileImageSolid from "../profileImageSolid";
 
