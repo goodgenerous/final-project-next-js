@@ -58,7 +58,7 @@ const NotificationReply = ({ name, description, createdAt }) => {
           </Flex>
           <Flex gap="2">
             <Text fontSize="sm" fontWeight="semibold" color="gray.500">
-              Replied your post:
+              Replied your post
             </Text>
             <Text fontSize="sm" fontWeight="bold" color="gray.400">
               {description}
