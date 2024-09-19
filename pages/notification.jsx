@@ -26,8 +26,9 @@ const formatDate = (dateString) => {
 };
 
 export default function Notification() {
+  const API_URL = process.env.NEXT_PUBLIC_URL_API;
   const { data, isLoading } = useQueries({
-    prefixUrl: `https://service.pace-unv.cloud/api/notifications`,
+    prefixUrl: `${API_URL}/notifications`,
     headers: {
       Authorization: `Bearer ${Cookies.get("user_token")}`,
     },

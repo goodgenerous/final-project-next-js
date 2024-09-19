@@ -63,17 +63,14 @@ export function UserContextProvider({ children, ...props }) {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(
-        `https://service.pace-unv.cloud/api/replies/post/${currentId}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${Cookies.get("user_token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(replyData),
-        }
-      );
+      const response = await fetch(`${API_URL}/replies/post/${currentId}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${Cookies.get("user_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(replyData),
+      });
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to submit reply");
@@ -101,7 +98,7 @@ export function UserContextProvider({ children, ...props }) {
 
   const handleSubmitEdit = async () => {
     try {
-      const url = `https://service.pace-unv.cloud/api/post/update/${currentId}`;
+      const url = `${API_URL}/post/update/${currentId}`;
       const response = await fetch(url, {
         method: "PATCH",
         headers: {
@@ -144,7 +141,7 @@ export function UserContextProvider({ children, ...props }) {
   const handleDelete = async (id) => {
     try {
       const result = await mutate({
-        url: `https://service.pace-unv.cloud/api/post/delete/${id}`,
+        url: `${API_URL}/post/delete/${id}`,
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${Cookies.get("user_token")}`,
@@ -174,15 +171,12 @@ export function UserContextProvider({ children, ...props }) {
 
   const handleDeleteReplies = async (id) => {
     try {
-      const response = await fetch(
-        `https://service.pace-unv.cloud/api/replies/delete/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${Cookies.get("user_token")}`,
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/replies/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${Cookies.get("user_token")}`,
+        },
+      });
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to delete reply");
@@ -210,7 +204,7 @@ export function UserContextProvider({ children, ...props }) {
   const handleLikeButton = async (id_post) => {
     try {
       const result = await mutate({
-        url: `https://service.pace-unv.cloud/api/likes/post/${id_post}`,
+        url: `${API_URL}/likes/post/${id_post}`,
         headers: {
           Authorization: `Bearer ${Cookies.get("user_token")}`,
         },
@@ -240,7 +234,7 @@ export function UserContextProvider({ children, ...props }) {
   const handleUnlikeButton = async (id_post) => {
     try {
       const result = await mutate({
-        url: `https://service.pace-unv.cloud/api/unlikes/post/${id_post}`,
+        url: `${API_URL}/unlikes/post/${id_post}`,
         headers: {
           Authorization: `Bearer ${Cookies.get("user_token")}`,
         },
