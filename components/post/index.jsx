@@ -18,9 +18,8 @@ import {
   Stack,
   StackDivider,
   Box,
-  MenuButton,
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import ProfileImageSolid from "../profileImageSolid";
 

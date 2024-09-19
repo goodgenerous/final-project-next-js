@@ -60,7 +60,7 @@ const NotificationReply = ({ name, description, createdAt }) => {
               Replied your post:
             </Text>
             <Text fontSize="sm" fontWeight="bold" color="gray.400">
-              "{description}"
+              {description}
             </Text>
           </Flex>
           <Text fontSize="sm" color="gray.500">
