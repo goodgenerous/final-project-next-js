@@ -1,12 +1,5 @@
 import { useMutation } from "@/hooks/useMutation";
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  InputGroup,
-  Textarea,
-  useToast,
-} from "@chakra-ui/react";
+import { Button, FormControl, InputGroup, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
@@ -16,11 +9,22 @@ export default function CreatePost() {
   const router = useRouter();
   const { mutate, isError } = useMutation();
   const [postData, setPostData] = useState({ description: "" });
+  const [isPostData, setIsPostData] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleEventPost = (event) => {
+    setPostData((postData) => ({
+      ...postData,
+      [event.target.name]: event.target.value,
+    }));
+    const valueInput = event.target.value;
+    valueInput.trim().length > 0 ? setIsPostData(true) : setIsPostData(false);
+  };
+
+  const handleSubmitPost = async () => {
     try {
       const result = await mutate({
         url: `https://service.pace-unv.cloud/api/post`,
+        method: "POST",
         headers: {
           Authorization: `Bearer ${Cookies.get("user_token")}`,
         },
@@ -55,20 +59,18 @@ export default function CreatePost() {
           <textarea
             className="border border-stone-500 p-4 w-full bg-black rounded-md"
             placeholder="What is Happening?!"
-            onChange={(event) =>
-              setPostData({
-                ...postData,
-                description: event.target.value,
-              })
-            }
+            name="description"
+            value={postData.description}
+            onChange={handleEventPost}
           ></textarea>
         </InputGroup>
         <Button
+          isDisabled={!isPostData}
           mt="4"
           colorScheme="blue"
           size="md"
           width="full"
-          onClick={() => handleSubmit()}
+          onClick={() => handleSubmitPost()}
         >
           Post
         </Button>

@@ -7,6 +7,7 @@ import { UserContext } from "@/context/userContext";
 import { useQueries } from "@/hooks/useQueries";
 import Cookies from "js-cookie";
 import PostEdit from "@/components/postEdit";
+import Post from "@/components/post";
 
 const LayoutComponent = dynamic(() => import("@/layout"), {
   loading: () => <p> Loading... </p>,
@@ -25,9 +26,8 @@ const formatDate = (dateString) => {
 
 export default function Profile() {
   const API_URL = process.env.NEXT_PUBLIC_URL_API;
-  const userData = useContext(UserContext);
   const { data, isLoading } = useQueries({
-    prefixUrl: `https://service.pace-unv.cloud/api/posts?type=me`,
+    prefixUrl: `${API_URL}/posts?type=me`,
     headers: {
       Authorization: `Bearer ${Cookies.get("user_token")}`,
     },
@@ -59,6 +59,7 @@ export default function Profile() {
                 data.data.map((item) => (
                   <PostEdit
                     key={item.id}
+                    id={item.user.id}
                     name={item.user.name}
                     description={item.description}
                     email={item.user.email}
@@ -66,6 +67,7 @@ export default function Profile() {
                     likes={item.likes_count.toString()}
                     replies={item.replies_count.toString()}
                     idPost={item.id}
+                    isLike={item.is_like_post}
                   />
                 ))
               ) : (

@@ -4,6 +4,8 @@ import { Spinner, Text, Flex } from "@chakra-ui/react";
 import NotificationItem from "@/components/notificationItem";
 import { useQueries } from "@/hooks/useQueries";
 import Cookies from "js-cookie";
+import { useContext } from "react";
+import { UserContext } from "@/context/userContext";
 
 const LayoutComponent = dynamic(() => import("@/layout"), {
   loading: () => <p>Loading...</p>,
@@ -30,8 +32,6 @@ export default function Notification() {
       Authorization: `Bearer ${Cookies.get("user_token")}`,
     },
   });
-
-  console.log("Loading => ", isLoading);
 
   return (
     <div className="bg-black min-h-screen">
@@ -61,6 +61,7 @@ export default function Notification() {
                     key={item.id}
                     type={item.remark}
                     userName={item.user.name}
+                    replies={item.posts.description || " "}
                     createdAt={formatDate(item.created_at)}
                   />
                 ))

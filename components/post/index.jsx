@@ -2,8 +2,6 @@ import {
   Button,
   Flex,
   FormControl,
-  FormLabel,
-  Image,
   ModalBody,
   ModalCloseButton,
   ModalContent,
@@ -12,37 +10,22 @@ import {
   Text,
   Textarea,
   useDisclosure,
-  useToast,
   Modal,
   ModalFooter,
   Card,
-  CardHeader,
   Heading,
   CardBody,
   Stack,
   StackDivider,
   Box,
+  MenuButton,
 } from "@chakra-ui/react";
-import { useMutation } from "@/hooks/useMutation";
-import { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import Cookies from "js-cookie";
+import { useContext, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import ProfileImageSolid from "../profileImageSolid";
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  });
-};
-
 export default function Post({
+  id,
   description,
   name,
   email,
@@ -50,82 +33,28 @@ export default function Post({
   likes,
   replies,
   idPost,
+  isLike,
 }) {
-  const userData = useContext(UserContext);
-  const toast = useToast();
-  const [modalType, setModalType] = useState(null);
-  const router = useRouter();
-  const [currentId, setCurrentId] = useState(null);
+  const {
+    dataUser,
+    replyDataAPI,
+    replyData,
+    handleEvent,
+    handleSubmit,
+    handleLikeButton,
+    handleUnlikeButton,
+    setCurrentId,
+    formatDate,
+    modalType,
+    setModalType,
+    handleDeleteReplies,
+  } = useContext(UserContext);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutate, isError, isLoading } = useMutation();
-  const [dataAPI, setDataAPI] = useState();
-  const [replyData, setReplyData] = useState({ description: "" });
-  const [replyDataAPI, setReplyDataAPI] = useState([]);
-  const handleEvent = (event) => {
-    event.preventDefault();
-    setReplyData({ ...replyData, [event.target.name]: event.target.value });
-  };
-
-  useEffect(() => {
-    if (currentId) {
-      async function fetchingData() {
-        const res = await fetch(
-          `https://service.pace-unv.cloud/api/replies/post/${currentId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${Cookies.get("user_token")}`,
-            },
-          }
-        );
-        const listReply = await res.json();
-        setReplyDataAPI(listReply.data);
-      }
-      fetchingData();
-    }
-  }, [currentId]);
-
   const handleCurrentId = (id, type) => {
     setCurrentId(id);
     setModalType(type);
     onOpen();
-  };
-
-  const handleSubmit = async () => {
-    try {
-      const response = await fetch(
-        `https://service.pace-unv.cloud/api/replies/post/${currentId}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${Cookies.get("user_token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(replyData),
-        }
-      );
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to submit reply");
-      }
-      toast({
-        title: "Success Replied",
-        position: "top",
-        variant: "top-accent",
-        status: "success",
-        isClosable: true,
-      });
-      setReplyData({ description: "" });
-      router.reload();
-    } catch (error) {
-      console.log(error);
-      toast({
-        title: "Error replying to post",
-        position: "top",
-        variant: "top-accent",
-        status: "error",
-        isClosable: true,
-      });
-    }
   };
 
   const ModalReply = () => (
@@ -169,9 +98,42 @@ export default function Post({
                   <Box key={item.id}>
                     <Flex gap="2">
                       <ProfileImageSolid name={item.user.name} />
-                      <Flex direction="column">
-                        <Heading size="xs">{item.user.name}</Heading>
-                        <Text fontSize="xs">{formatDate(item.created_at)}</Text>
+                      <Flex
+                        justifyContent="space-between"
+                        gap="10"
+                        alignItems="center"
+                      >
+                        <Flex direction="column" ml={1}>
+                          <Heading size="xs">{item.user.name}</Heading>
+                          <Text fontSize="xs">
+                            {formatDate(item.created_at)}
+                          </Text>
+                        </Flex>
+                        {item.user.id === dataUser.id ? (
+                          <Button
+                            colorScheme="blue"
+                            variant="outline"
+                            size="xs"
+                            onClick={() =>
+                              handleCurrentId(idPost, "DELETE_REPLIES")
+                            }
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              className="size-4"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </Button>
+                        ) : (
+                          <> </>
+                        )}
                       </Flex>
                     </Flex>
                     <Text pt="3" fontSize="md">
@@ -189,53 +151,37 @@ export default function Post({
     </Modal>
   );
 
-  const handleLikeButton = async () => {
-    try {
-      const result = await mutate({
-        url: `https://service.pace-unv.cloud/api/likes/post/${currentId}`,
-        headers: {
-          Authorization: `Bearer ${Cookies.get("user_token")}`,
-        },
-      });
-      if (!isError) {
-        toast({
-          title: "Data Success Like",
-          position: "top",
-          variant: "top-accent",
-          status: "success",
-          isClosable: true,
-        });
-      }
-      router.reload();
-    } catch (error) {
-      console.log(error);
-      toast({
-        title: "Error like data",
-        position: "top",
-        variant: "top-accent",
-        status: "error",
-        isClosable: true,
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (currentId) {
-      async function fetchingData() {
-        const res = await fetch(
-          `https://service.pace-unv.cloud/api/likes/post/${currentId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${Cookies.get("user_token")}`,
-            },
-          }
-        );
-        const listNotes = await res.json();
-        setDataAPI(listNotes.data);
-      }
-      fetchingData();
-    }
-  }, [currentId]);
+  const ModalDeleteReplies = () => (
+    <Modal
+      isCentered
+      isOpen={isOpen && modalType === "DELETE_REPLIES"}
+      onClose={onClose}
+      motionPreset="slideInBottom"
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader> Confirm Delete </ModalHeader> <ModalCloseButton />
+        <ModalBody pb={6}>Do you want to delete this data?</ModalBody>
+        <ModalFooter>
+          <Button variant="ghost" mr={3} onClick={onClose}>
+            Cancel
+          </Button>
+          <Button
+            colorScheme="red"
+            onClick={() => {
+              const ownReplyId = replyDataAPI
+                .filter((item) => item.is_own_reply)
+                .map((item) => item.id);
+              handleDeleteReplies(ownReplyId);
+              onClose();
+            }}
+          >
+            Delete
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
 
   return (
     <div className="border-b border-stone-500 px-2 py-8">
@@ -260,13 +206,10 @@ export default function Post({
           variant="outline"
           colorScheme="blue"
           onClick={() => {
-            setCurrentId(idPost);
-            handleLikeButton();
+            !isLike ? handleLikeButton(idPost) : handleUnlikeButton(idPost);
           }}
           leftIcon={
-            dataAPI &&
-            dataAPI.users_id === userData.id &&
-            dataAPI.is_like_post ? (
+            isLike ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -320,6 +263,7 @@ export default function Post({
           {replies} Replies
         </Button>
         {ModalReply()}
+        {ModalDeleteReplies()}
       </Flex>
     </div>
   );

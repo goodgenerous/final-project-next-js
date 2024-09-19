@@ -3,31 +3,21 @@ import dynamic from "next/dynamic";
 import { Flex, Spinner } from "@chakra-ui/react";
 import CreatePost from "@/components/createPost";
 import Post from "@/components/post";
+import PostEdit from "@/components/postEdit";
 import { useQueries } from "@/hooks/useQueries";
 import Cookies from "js-cookie";
+import { useContext } from "react";
+import { UserContext } from "@/context/userContext";
 
 const LayoutComponent = dynamic(() => import("@/layout"), {
   loading: () => <p> Loading... </p>,
   ssr: false,
 });
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-};
-
 export default function Home() {
-  const { data, isLoading } = useQueries({
-    prefixUrl: `https://service.pace-unv.cloud/api/posts?type=all`,
-    headers: {
-      Authorization: `Bearer ${Cookies.get("user_token")}`,
-    },
-  });
+  const { dataUser, postsData, isLoading, formatDate } =
+    useContext(UserContext);
+  console.log(postsData);
 
   return (
     <div className="bg-black min-h-screen">
@@ -49,19 +39,36 @@ export default function Home() {
             </Flex>
           ) : (
             <>
-              {data?.data &&
-                data.data.map((item) => (
-                  <Post
-                    key={item.id}
-                    name={item.user.name}
-                    description={item.description}
-                    email={item.user.email}
-                    createdAt={formatDate(item.created_at)}
-                    likes={item.likes_count.toString()}
-                    replies={item.replies_count.toString()}
-                    idPost={item.id}
-                  />
-                ))}
+              {postsData?.data &&
+                postsData.data.map((item) =>
+                  dataUser?.id === item.user.id ? (
+                    <PostEdit
+                      key={item.id}
+                      id={item.user.id}
+                      name={item.user.name}
+                      description={item.description}
+                      email={item.user.email}
+                      createdAt={formatDate(item.created_at)}
+                      likes={item.likes_count.toString()}
+                      replies={item.replies_count.toString()}
+                      idPost={item.id}
+                      isLike={item.is_like_post}
+                    />
+                  ) : (
+                    <Post
+                      key={item.id}
+                      id={item.user.id}
+                      name={item.user.name}
+                      description={item.description}
+                      email={item.user.email}
+                      createdAt={formatDate(item.created_at)}
+                      likes={item.likes_count.toString()}
+                      replies={item.replies_count.toString()}
+                      idPost={item.id}
+                      isLike={item.is_like_post}
+                    />
+                  )
+                )}
             </>
           )}
         </div>
