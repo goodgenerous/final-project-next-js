@@ -25,7 +25,8 @@ const formatDate = (dateString) => {
 };
 
 export default function Profile() {
-  const API_URL = process.env.NEXT_PUBLIC_URL_API;
+  const API_URL =
+    process.env.NEXT_PUBLIC_URL_API || "https://service.pace-unv.cloud/api";
   const { data, isLoading } = useQueries({
     prefixUrl: `${API_URL}/posts?type=me`,
     headers: {
