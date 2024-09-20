@@ -153,6 +153,7 @@ export function UserContextProvider({ children, ...props }) {
   const handleSubmitLogin = async () => {
     const response = await mutate({
       url: `${API_URL}/login`,
+      method: "POST",
       payload: payloadLogin,
     });
     if (!response.success) {
@@ -188,6 +189,7 @@ export function UserContextProvider({ children, ...props }) {
   const handleSubmitRegister = async () => {
     const response = await mutate({
       url: `${API_URL}/register`,
+      method: "POST",
       payload: payload,
     });
     if (!response.success) {
@@ -286,6 +288,7 @@ export function UserContextProvider({ children, ...props }) {
     try {
       const result = await mutate({
         url: `${API_URL}/likes/post/${id_post}`,
+        method: "POST",
         headers: {
           Authorization: `Bearer ${Cookies.get("user_token")}`,
         },
@@ -316,6 +319,7 @@ export function UserContextProvider({ children, ...props }) {
     try {
       const result = await mutate({
         url: `${API_URL}/unlikes/post/${id_post}`,
+        method: "POST",
         headers: {
           Authorization: `Bearer ${Cookies.get("user_token")}`,
         },
