@@ -3,10 +3,11 @@ import { useQueries } from "@/hooks/useQueries";
 import Cookies from "js-cookie";
 import { useMutation } from "@/hooks/useMutation";
 import { useRouter } from "next/router";
-import { useDisclosure, useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 
 export const UserContext = createContext({});
-const API_URL = process.env.NEXT_PUBLIC_URL_API;
+const API_URL =
+  process.env.NEXT_PUBLIC_URL_API || "https://service.pace-unv.cloud/api";
 
 export function UserContextProvider({ children, ...props }) {
   const [dataUser, setDataUser] = useState(null);
