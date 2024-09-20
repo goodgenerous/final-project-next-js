@@ -15,57 +15,56 @@ import {
   InputGroup,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useMutation } from "@/hooks/useMutation";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { UserContext } from "@/context/userContext";
 
 export default function Login() {
-  const toast = useToast();
-  const router = useRouter();
-  const { mutate } = useMutation();
-  const [payload, setPayload] = useState({
-    email: "",
-    password: "",
-  });
+  const { payloadLogin, setPayloadLogin, handleSubmitLogin } =
+    useContext(UserContext);
+  // const toast = useToast();
+  // const router = useRouter();
+  // const { mutate } = useMutation();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
 
-  const handleSubmit = async () => {
-    const response = await mutate({
-      url: `https://service.pace-unv.cloud/api/login`,
-      payload,
-    });
-    if (!response.success) {
-      toast({
-        title: "Login Failed!",
-        description: "Email and password didn't match",
-        position: "top",
-        status: "error",
-        variant: "top-accent",
-        status: "error",
-        isClosable: true,
-      });
-    } else {
-      Cookies.set("user_token", response.data.token, {
-        expires: new Date(response.data.expires_at),
-        path: "/",
-      });
-      router.push("/");
-      toast({
-        title: "Login Successfully!",
-        position: "top",
-        variant: "top-accent",
-        status: "success",
-        isClosable: true,
-      });
-      setPayload({
-        email: "",
-        password: "",
-      });
-    }
-  };
+  // const handleSubmitLogin = async () => {
+  //   const response = await mutate({
+  //     url: `https://service.pace-unv.cloud/api/login`,
+  //     payload,
+  //   });
+  //   if (!response.success) {
+  //     toast({
+  //       title: "Login Failed!",
+  //       description: "Email and password didn't match",
+  //       position: "top",
+  //       status: "error",
+  //       variant: "top-accent",
+  //       status: "error",
+  //       isClosable: true,
+  //     });
+  //   } else {
+  //     Cookies.set("user_token", response.data.token, {
+  //       expires: new Date(response.data.expires_at),
+  //       path: "/",
+  //     });
+  //     router.push("/");
+  //     toast({
+  //       title: "Login Successfully!",
+  //       position: "top",
+  //       variant: "top-accent",
+  //       status: "success",
+  //       isClosable: true,
+  //     });
+  //     setPayload({
+  //       email: "",
+  //       password: "",
+  //     });
+  //   }
+  // };
 
   return (
     <section className="bg-black min-w-screen min-h-screen">
@@ -84,9 +83,9 @@ export default function Login() {
                   name="password"
                   placeholder="Enter email"
                   type="text"
-                  value={payload.email}
+                  value={payloadLogin.email}
                   onChange={(e) =>
-                    setPayload({ ...payload, email: e.target.value })
+                    setPayloadLogin({ ...payloadLogin, email: e.target.value })
                   }
                 />
               </InputGroup>
@@ -97,9 +96,12 @@ export default function Login() {
                 <Input
                   name="password"
                   onChange={(e) =>
-                    setPayload({ ...payload, password: e.target.value })
+                    setPayloadLogin({
+                      ...payloadLogin,
+                      password: e.target.value,
+                    })
                   }
-                  value={payload.password}
+                  value={payloadLogin.password}
                   pr="4.5rem"
                   type={show ? "text" : "password"}
                   placeholder="Enter password"
@@ -118,7 +120,7 @@ export default function Login() {
                 size="md"
                 width="full"
                 colorScheme="blue"
-                onClick={() => handleSubmit()}
+                onClick={() => handleSubmitLogin()}
               >
                 Submit
               </Button>

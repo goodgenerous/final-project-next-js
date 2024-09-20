@@ -19,6 +19,18 @@ export function UserContextProvider({ children, ...props }) {
   const [dataAPI, setDataAPI] = useState({
     description: "",
   });
+  const [payload, setPayload] = useState({
+    name: "",
+    email: "",
+    password: "",
+    dob: "",
+    phone: "",
+    hobby: "",
+  });
+  const [payloadLogin, setPayloadLogin] = useState({
+    email: "",
+    password: "",
+  });
   const [replyDataAPI, setReplyDataAPI] = useState([]);
   const router = useRouter();
   const { mutate, isError } = useMutation();
@@ -134,6 +146,75 @@ export function UserContextProvider({ children, ...props }) {
         variant: "top-accent",
         status: "error",
         isClosable: true,
+      });
+    }
+  };
+
+  const handleSubmitLogin = async () => {
+    const response = await mutate({
+      url: `${API_URL}/login`,
+      payload: payloadLogin,
+    });
+    if (!response.success) {
+      toast({
+        title: "Login Failed!",
+        description: "Email and password didn't match",
+        position: "top",
+        status: "error",
+        variant: "top-accent",
+        status: "error",
+        isClosable: true,
+      });
+    } else {
+      Cookies.set("user_token", response.data.token, {
+        expires: new Date(response.data.expires_at),
+        path: "/",
+      });
+      router.push("/");
+      toast({
+        title: "Login Successfully!",
+        position: "top",
+        variant: "top-accent",
+        status: "success",
+        isClosable: true,
+      });
+      setPayloadLogin({
+        email: "",
+        password: "",
+      });
+    }
+  };
+
+  const handleSubmitRegister = async () => {
+    const response = await mutate({
+      url: `${API_URL}/register`,
+      payload: payload,
+    });
+    if (!response.success) {
+      toast({
+        title: "Register Failed!",
+        position: "top",
+        status: "error",
+        variant: "top-accent",
+        status: "error",
+        isClosable: true,
+      });
+    } else {
+      router.push("/login");
+      toast({
+        title: "Register Successfully!",
+        position: "top",
+        variant: "top-accent",
+        status: "success",
+        isClosable: true,
+      });
+      setPayload({
+        name: "",
+        email: "",
+        password: "",
+        dob: "",
+        phone: "",
+        hobby: "",
       });
     }
   };
@@ -342,6 +423,10 @@ export function UserContextProvider({ children, ...props }) {
     modalType,
     setModalType,
     toast,
+    payload,
+    setPayload,
+    payloadLogin,
+    setPayloadLogin,
   };
 
   const handleFunction = {
@@ -350,6 +435,8 @@ export function UserContextProvider({ children, ...props }) {
     handleEditEvent,
     handleSubmit,
     handleSubmitEdit,
+    handleSubmitRegister,
+    handleSubmitLogin,
     handleLikeButton,
     handleUnlikeButton,
     formatDate,

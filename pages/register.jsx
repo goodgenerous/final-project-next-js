@@ -1,6 +1,5 @@
 import {
   Flex,
-  Stack,
   Card,
   CardHeader,
   CardBody,
@@ -13,63 +12,15 @@ import {
   Input,
   InputRightElement,
   InputGroup,
-  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useMutation } from "@/hooks/useMutation";
-import Cookies from "js-cookie";
-import { useRouter } from "next/router";
+import { useContext, useState } from "react";
 import Link from "next/link";
+import { UserContext } from "@/context/userContext";
 
 export default function Register() {
-  const toast = useToast();
-  const router = useRouter();
-  const { mutate } = useMutation();
-  const [payload, setPayload] = useState({
-    name: "",
-    email: "",
-    password: "",
-    dob: "",
-    phone: "",
-    hobby: "",
-  });
+  const { handleSubmitRegister, payload, setPayload } = useContext(UserContext);
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-
-  const handleSubmit = async () => {
-    const response = await mutate({
-      url: `https://service.pace-unv.cloud/api/register`,
-      payload,
-    });
-    if (!response.success) {
-      toast({
-        title: "Register Failed!",
-        position: "top",
-        status: "error",
-        variant: "top-accent",
-        status: "error",
-        isClosable: true,
-      });
-    } else {
-      router.push("/login");
-      toast({
-        title: "Register Successfully!",
-        position: "top",
-        variant: "top-accent",
-        status: "success",
-        isClosable: true,
-      });
-      setPayload({
-        name: "",
-        email: "",
-        password: "",
-        dob: "",
-        phone: "",
-        hobby: "",
-      });
-    }
-  };
-
   return (
     <section className="bg-black min-w-screen min-h-screen">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -176,7 +127,7 @@ export default function Register() {
               <Button
                 width="full"
                 colorScheme="blue"
-                onClick={() => handleSubmit()}
+                onClick={() => handleSubmitRegister()}
               >
                 Submit
               </Button>

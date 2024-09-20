@@ -23,7 +23,7 @@ export default function CreatePost() {
   const handleSubmitPost = async () => {
     try {
       const result = await mutate({
-        url: `https://service.pace-unv.cloud/api/post`,
+        url: `${API_URL}/post`,
         method: "POST",
         headers: {
           Authorization: `Bearer ${Cookies.get("user_token")}`,

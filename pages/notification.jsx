@@ -62,7 +62,7 @@ export default function Notification() {
                     key={item.id}
                     type={item.remark}
                     userName={item.user.name}
-                    replies={item.posts.description || " "}
+                    replies={item.posts.description}
                     createdAt={formatDate(item.created_at)}
                   />
                 ))
