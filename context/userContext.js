@@ -377,14 +377,11 @@ export function UserContextProvider({ children, ...props }) {
   useEffect(() => {
     async function fetchingData() {
       try {
-        const res = await fetch(
-          `https://service.pace-unv.cloud/api/post/${currentId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${Cookies.get("user_token")}`,
-            },
-          }
-        );
+        const res = await fetch(`${API_URL}/post/${currentId}`, {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("user_token")}`,
+          },
+        });
         const listPosts = await res.json();
         setDataAPI(listPosts.data);
       } catch (error) {
