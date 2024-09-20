@@ -1,4 +1,3 @@
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Spinner, Text, Flex } from "@chakra-ui/react";
 import NotificationItem from "@/components/notificationItem";
@@ -26,8 +25,7 @@ const formatDate = (dateString) => {
 };
 
 export default function Notification() {
-  const API_URL =
-    process.env.NEXT_PUBLIC_URL_API || "https://service.pace-unv.cloud/api";
+  const { API_URL } = useContext(UserContext);
   const { data, isLoading } = useQueries({
     prefixUrl: `${API_URL}/notifications`,
     headers: {

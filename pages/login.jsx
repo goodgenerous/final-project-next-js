@@ -1,6 +1,5 @@
 import {
   Flex,
-  Stack,
   Card,
   CardHeader,
   CardBody,
@@ -13,59 +12,16 @@ import {
   Input,
   InputRightElement,
   InputGroup,
-  useToast,
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
-import { useMutation } from "@/hooks/useMutation";
-import Cookies from "js-cookie";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { UserContext } from "@/context/userContext";
 
 export default function Login() {
   const { payloadLogin, setPayloadLogin, handleSubmitLogin } =
     useContext(UserContext);
-  // const toast = useToast();
-  // const router = useRouter();
-  // const { mutate } = useMutation();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-
-  // const handleSubmitLogin = async () => {
-  //   const response = await mutate({
-  //     url: `https://service.pace-unv.cloud/api/login`,
-  //     payload,
-  //   });
-  //   if (!response.success) {
-  //     toast({
-  //       title: "Login Failed!",
-  //       description: "Email and password didn't match",
-  //       position: "top",
-  //       status: "error",
-  //       variant: "top-accent",
-  //       status: "error",
-  //       isClosable: true,
-  //     });
-  //   } else {
-  //     Cookies.set("user_token", response.data.token, {
-  //       expires: new Date(response.data.expires_at),
-  //       path: "/",
-  //     });
-  //     router.push("/");
-  //     toast({
-  //       title: "Login Successfully!",
-  //       position: "top",
-  //       variant: "top-accent",
-  //       status: "success",
-  //       isClosable: true,
-  //     });
-  //     setPayload({
-  //       email: "",
-  //       password: "",
-  //     });
-  //   }
-  // };
-
   return (
     <section className="bg-black min-w-screen min-h-screen">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">

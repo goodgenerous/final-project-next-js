@@ -429,6 +429,7 @@ export function UserContextProvider({ children, ...props }) {
     setPayload,
     payloadLogin,
     setPayloadLogin,
+    API_URL,
   };
 
   const handleFunction = {
