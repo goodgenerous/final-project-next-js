@@ -53,6 +53,7 @@ export default function PostEdit({
     dataAPI,
     handleEditEvent,
     handleSubmitEdit,
+    handleDelete,
     isUpdate,
     modalType,
     setModalType,

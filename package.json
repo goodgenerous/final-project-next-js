@@ -23,6 +23,7 @@
     "swr": "^2.2.5"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "eslint": "^8",
     "eslint-config-next": "14.2.8",
     "postcss": "^8",

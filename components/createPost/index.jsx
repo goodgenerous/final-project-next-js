@@ -1,10 +1,12 @@
 import { useMutation } from "@/hooks/useMutation";
 import { Button, FormControl, InputGroup, useToast } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import { UserContext } from "@/context/userContext";
 
 export default function CreatePost() {
+  const { API_URL } = useContext(UserContext);
   const toast = useToast();
   const router = useRouter();
   const { mutate, isError } = useMutation();
